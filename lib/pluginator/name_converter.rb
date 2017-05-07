@@ -25,11 +25,11 @@ module Pluginator
     # full_name => class
     def name2class(name)
       klass = Kernel
-      name.to_s.split(/\//).map{ |part|
-        part.capitalize.gsub(/_(.)/){ $1.upcase }
-      }.each{|part|
-        klass = klass.const_get( part )
-      }
+      name.to_s.split(%r{/}).each do |part|
+        klass = klass.const_get(
+          part.capitalize.gsub(/_(.)/) { |match| match[1].upcase }
+        )
+      end
       klass
     end
 

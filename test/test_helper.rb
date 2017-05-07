@@ -66,6 +66,13 @@ then
 
   Coveralls.noisy = true unless ENV["CI"]
 end
+# Ensure all files are counted in
+Dir[lib+"/**/*.rb"].each{|file| require file }
+
+# We are removing paths from $LOAD_PATH,
+# disabling verbose to not get warnings
+# when the files are required again
+$VERBOSE = false
 
 module Something
   module Math; end

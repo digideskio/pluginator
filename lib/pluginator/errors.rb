@@ -22,8 +22,9 @@ module Pluginator
   # base error for all Pluginator errors
   class PluginatorError < RuntimeError
   private
+
     def list_to_s(list)
-      list.map{|e| e.to_s.inspect }.join(", ")
+      list.map { |plugin| plugin.to_s.inspect }.join(", ")
     end
   end
 

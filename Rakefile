@@ -41,4 +41,15 @@ Rake::TestTask.new do |t|
 end
 default_tasks << :test
 
+begin
+  require "rubocop/rake_task.rb"
+  RuboCop::RakeTask.new do |t|
+    t.patterns = %w[lib/]
+  end
+  unless ENV["CI"]
+    default_tasks << :rubocop
+  end
+rescue LoadError
+end
+
 task :default => default_tasks

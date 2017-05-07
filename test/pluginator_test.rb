@@ -21,6 +21,12 @@ require "test_helper"
 require "pluginator"
 
 describe Pluginator do
+  before do
+    $LOADED_FEATURES.reject! do |path|
+      path =~ %r{plugins/(something|load_path|latest|activated|v1test|v2test)}
+    end
+  end
+
   it :loads_plugins_automatically_for_group do
     pluginator = Pluginator.find("something")
     pluginator.types.must_include("stats")
@@ -36,8 +42,7 @@ describe Pluginator do
 
   it :loads_plugins_automatically_for_group_type do
     pluginator = Pluginator.find("something", :type => "stats")
-    pluginator.types.must_include("stats")
-    pluginator.types.size.must_equal(1)
+    pluginator.types.sort.must_equal(["stats"])
   end
 
   it :loads_existing_extensions_symbol do
